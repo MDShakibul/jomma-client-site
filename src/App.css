@@ -1,0 +1,27 @@
+.gradient-color {
+  width: 100%;
+  background-image: linear-gradient(to right, #41918f, #41B5B5);
+}
+
+.bottom-border {
+  font-size: 20px;
+  color: #E4572E;
+  font-weight: 600;
+  position: relative; 
+  display: inline-block;
+}
+
+
+.bottom-border:after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: -5px; 
+  right:-5px; 
+  height: 5px; 
+  background-color: #E4572E; 
+  border-radius: 5px; 
+}
+
+
+
