@@ -1,6 +1,7 @@
 import Details from "./Details";
 import HeroSection from "./HeroSection";
 import Navbar from "./Navbar";
+import Product from "./Product";
 
 const Home = () => {
     return (
@@ -8,6 +9,7 @@ const Home = () => {
         <Navbar/>
         <HeroSection/>
         <Details/>
+        <Product/>
         adas
             
         </>

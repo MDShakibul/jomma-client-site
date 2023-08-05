@@ -23,5 +23,72 @@
   border-radius: 5px; 
 }
 
+.custom-input {
+  padding: 1rem;
+  font-size: 20px;
+  border: 2px solid #2C7C7A;
+  border-radius: 100px;
+  padding-left: 20px;
+}
+
+.custom-input:focus {
+  border-color: #2C7C7A;
+  outline: none;
+}
+
+.btn-rest{
+  border-radius: 25px;
+  font-size: 20px;
+  background-color: #2C7C7A;
+  color: #fff;
+  border: transparent;
+}
+
+.table-title{
+  font-size: 20px;
+  color: #2C7C7A !important;
+}
+
+.table-striped thead tr {
+  padding-bottom: 10rem !important;
+  border-bottom: 5px solid #2C7C7A;
+}
+.table-striped thead tr th{
+  padding-bottom: 2rem !important;
+}
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+  background-color: #EAF2F2;
+}
+.table-striped tbody tr {
+ border-bottom: transparent;
+}
+
+
+
+/* Large screens */
+@media (min-width: 992px) {
+  .custom-input {
+    width: 25%;
+    padding: 1rem;
+    font-size: 20px;
+    border: 2px solid #2C7C7A;
+    border-radius: 100px;
+    padding-left: 20px;
+  }
+}
+
+/* Medium screens */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .custom-input {
+    width: 50%;
+  }
+}
+
+/* Small screens */
+@media (max-width: 767.98px) {
+  .custom-input {
+    width: 75%;
+  }
+}
 
 
