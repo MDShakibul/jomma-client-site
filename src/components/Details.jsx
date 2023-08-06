@@ -26,7 +26,7 @@ const Details = () => {
         style={{
           backgroundColor: "#EAF2F2",
           margin: "5rem",
-          padding: "1rem 5rem",
+          padding: "2rem 5rem",
         }}
       >
         <div className="row">
