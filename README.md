@@ -19,7 +19,7 @@ last, run the development server:
 npm run dev
 ```
 
-### [You must have run Backend Server when you browse the Client Site]
+### [ N.B: You must have run Backend Server when you browse this Client Site ]
 
 Server site link [https://github.com/MDShakibul/jomma-server-site](https://github.com/MDShakibul/jomma-server-site)
 
