@@ -1,8 +1,27 @@
-# React + Vite
+## Getting Started
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+First, clone or dowload this project:
 
-Currently, two official plugins are available:
+```bash
+git colne https://github.com/MDShakibul/jomma-client-site.git
+```
+or click download the button
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+then stat this commad for install all Package
+
+```bash
+npm install
+```
+
+last, run the development server:
+
+```bash
+npm run dev
+```
+
+###[You must have run Backend Server when you browse the Client Site]
+
+Server site link [https://github.com/MDShakibul/jomma-server-site](https://github.com/MDShakibul/jomma-server-site)
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+

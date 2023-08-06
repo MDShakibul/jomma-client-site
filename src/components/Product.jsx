@@ -18,8 +18,6 @@ const Product = () => {
     fetchData();
   }, []);
 
-
-
   const handleImageClick = (addProduct) => {
     const isIdIncluded = selectedProducts.some(
       (product) =>
@@ -37,54 +35,59 @@ const Product = () => {
   };
 
   const handleSaveTransaction = () => {
-    function mapSelectedProducts(selectedProducts) {
-      return new Promise((resolve) => {
-        const convertedArray = selectedProducts.map((product) => ({
-          user_id: 1,
-          product_id: product.product_id,
-          order_amount: product.unit_price,
-        }));
-        resolve(convertedArray);
-      });
-    }
+    if (selectedProducts.length > 0) {
+      // eslint-disable-next-line no-inner-declarations
+      function mapSelectedProducts(selectedProducts) {
+        return new Promise((resolve) => {
+          const convertedArray = selectedProducts.map((product) => ({
+            user_id: 1,
+            product_id: product.product_id,
+            order_amount: product.unit_price,
+          }));
+          resolve(convertedArray);
+        });
+      }
 
-    mapSelectedProducts(selectedProducts)
-      .then((convertedArray) => {
-        const postData = async () => {
-          try {
-            const response = await fetch(
-              `http://localhost:5000/v1/api/add-products`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(convertedArray),
-              }
-            );
-            const responseData = await response.json();
-            return responseData;
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
-        };
-
-        postData()
-          .then((responseData) => {
-            if (responseData?.status === 200) {
-              setSelectedProducts([]);
-              toast.success("Save successfully");
-            } else {
-              toast.error("Save failed");
+      mapSelectedProducts(selectedProducts)
+        .then((convertedArray) => {
+          const postData = async () => {
+            try {
+              const response = await fetch(
+                `http://localhost:5000/v1/api/add-products`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(convertedArray),
+                }
+              );
+              const responseData = await response.json();
+              return responseData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
             }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+          };
+
+          postData()
+            .then((responseData) => {
+              if (responseData?.status === 200) {
+                setSelectedProducts([]);
+                toast.success("save successfully");
+              } else {
+                toast.error("save failed");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } else {
+      toast.error("please select a stock first");
+    }
   };
 
   useEffect(() => {
@@ -98,10 +101,10 @@ const Product = () => {
     setFilteredProducts(filtered);
   }, [searchQuery, products]);
 
-  const handelClearSearch = () =>{
-    setSearchQuery('')
+  const handelClearSearch = () => {
+    setSearchQuery("");
     fetchData();
-  }
+  };
 
   const fetchData = async () => {
     try {
@@ -112,7 +115,6 @@ const Product = () => {
       console.error("Error fetching data:", error);
     }
   };
-
 
   const handleSorting = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -144,10 +146,13 @@ const Product = () => {
           className="custom-input"
           placeholder="Select Stock"
         />
-        <button className="btn-rest ms-5 px-5 py-2" onClick={handelClearSearch}>Clear</button>
+        <button className="btn-rest ms-5 px-5 py-2" onClick={handelClearSearch}>
+          Clear
+        </button>
       </div>
 
-      <table className="table table-striped container" id="my-custom-table">
+      <div className="table-responsive container">
+      <table className="table table-striped" id="my-custom-table">
         <thead>
           <tr>
             <th scope="col" className="table-title">
@@ -160,7 +165,12 @@ const Product = () => {
               Year to Date <br />
               (%)
             </th>
-            <th scope="col" className="table-title" onClick={handleSorting} style={{ cursor: 'pointer' }}>
+            <th
+              scope="col"
+              className="table-title"
+              onClick={handleSorting}
+              style={{ cursor: "pointer" }}
+            >
               <img src={Filter} alt="" /> <br />
               Filter
             </th>
@@ -223,14 +233,22 @@ const Product = () => {
                 </div>
               </td>
               <td style={{ verticalAlign: "middle" }}>
-                {
-                  selectedProducts.includes(product) ? <img src={Done} alt="" />  : <img onClick={() => handleImageClick(product)} src={Add} alt="" style={{ cursor: 'pointer' }}/> 
-                }
+                {selectedProducts.includes(product) ? (
+                  <img src={Done} alt="" />
+                ) : (
+                  <img
+                    onClick={() => handleImageClick(product)}
+                    src={Add}
+                    alt=""
+                    style={{ cursor: "pointer" }}
+                  />
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
 
       {selectedProducts?.length > 0 && (
         <div className="mt-4" style={{ backgroundColor: "#fceeea" }}>
