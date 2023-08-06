@@ -5,25 +5,20 @@ import Profite from "../assets/images/Profite_rate.png";
 import Done from "../assets/images/Done.png";
 import Add from "../assets/images/Add.png";
 import Cancel from "../assets/images/Cancel.png";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Product = () => {
   const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedProducts, setSelectedProducts] = useState([]);
-  //const [selectedConfirmProducts, setSelectedConfirmProducts] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/v1/api/products`);
-        const jsonData = await response.json();
-        setProducts(jsonData?.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [sortOrder, setSortOrder] = useState("asc");
 
+  useEffect(() => {
     fetchData();
   }, []);
+
+
 
   const handleImageClick = (addProduct) => {
     const isIdIncluded = selectedProducts.some(
@@ -55,7 +50,6 @@ const Product = () => {
 
     mapSelectedProducts(selectedProducts)
       .then((convertedArray) => {
-
         const postData = async () => {
           try {
             const response = await fetch(
@@ -77,11 +71,11 @@ const Product = () => {
 
         postData()
           .then((responseData) => {
-            if(responseData?.status === 200){
+            if (responseData?.status === 200) {
               setSelectedProducts([]);
-              toast.success('Save successfully');
-            }else{
-              toast.error('Save failed');
+              toast.success("Save successfully");
+            } else {
+              toast.error("Save failed");
             }
           })
           .catch((error) => {
@@ -93,6 +87,46 @@ const Product = () => {
       });
   };
 
+  useEffect(() => {
+    const filtered = products?.filter(
+      (product) =>
+        product.product_name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        product.product_code.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [searchQuery, products]);
+
+  const handelClearSearch = () =>{
+    setSearchQuery('')
+    fetchData();
+  }
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/v1/api/products`);
+      const jsonData = await response.json();
+      setProducts(jsonData?.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+
+  const handleSorting = () => {
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+
+  // Sort the products based on the sortOrder
+  useEffect(() => {
+    const sortedProducts = [...filteredProducts];
+    sortedProducts.sort((a, b) => {
+      const orderMultiplier = sortOrder === "asc" ? 1 : -1;
+      return orderMultiplier * (a.product_id - b.product_id);
+    });
+    setFilteredProducts(sortedProducts);
+  }, [sortOrder]);
 
   return (
     <>
@@ -102,16 +136,16 @@ const Product = () => {
           Sell Request
         </p>
       </div>
-      <form className="d-flex justify-content-center align-items-center my-5 ">
+      <div className="d-flex justify-content-center align-items-center my-5 ">
         <input
           type="text"
-          name=""
-          id=""
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="custom-input"
           placeholder="Select Stock"
         />
-        <button className="btn-rest ms-5 px-5 py-2">Clear</button>
-      </form>
+        <button className="btn-rest ms-5 px-5 py-2" onClick={handelClearSearch}>Clear</button>
+      </div>
 
       <table className="table table-striped container" id="my-custom-table">
         <thead>
@@ -126,14 +160,14 @@ const Product = () => {
               Year to Date <br />
               (%)
             </th>
-            <th scope="col" className="table-title">
+            <th scope="col" className="table-title" onClick={handleSorting} style={{ cursor: 'pointer' }}>
               <img src={Filter} alt="" /> <br />
               Filter
             </th>
           </tr>
         </thead>
         <tbody>
-          {products?.map((product) => (
+          {filteredProducts?.map((product) => (
             <tr key={product?.product_id}>
               <td>
                 <p
@@ -189,13 +223,9 @@ const Product = () => {
                 </div>
               </td>
               <td style={{ verticalAlign: "middle" }}>
-                {/* <img src={Done} alt="" /> */}
-                <img
-                  style={{ cursor: "pointer" }}
-                  src={selectedProducts.includes(product) ? Done : Add}
-                  alt=""
-                  onClick={() => handleImageClick(product)}
-                />
+                {
+                  selectedProducts.includes(product) ? <img src={Done} alt="" />  : <img onClick={() => handleImageClick(product)} src={Add} alt="" style={{ cursor: 'pointer' }}/> 
+                }
               </td>
             </tr>
           ))}
