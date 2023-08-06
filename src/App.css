@@ -63,6 +63,11 @@
  border-bottom: transparent;
 }
 
+.footer-gradient-color {
+  width: 100%;
+  background-image: linear-gradient(to right, #41B5B5, #41918f);
+}
+
 
 
 /* Large screens */

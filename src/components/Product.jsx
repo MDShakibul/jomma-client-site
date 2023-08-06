@@ -3,6 +3,7 @@ import Loss from "../assets/images/Loss_rate.png";
 import Profite from "../assets/images/Profite_rate.png";
 import Done from "../assets/images/Done.png";
 import Add from "../assets/images/Add.png";
+import Cancel from "../assets/images/Cancel.png";
 const Product = () => {
   return (
     <>
@@ -161,6 +162,20 @@ const Product = () => {
           </tr>
         </tbody>
       </table>
+
+      <div style={{ backgroundColor: "#fceeea" }}>
+        <div className="container py-4">
+          <div className="row">
+            <div className="col-lg-2">
+              <button className="px-3 py-1" style={{ fontSize: '20px', fontWeight:'600', color:'#2C7C7A', border:'2px solid #2C7C7A', borderRadius: '100px', backgroundColor:'#fceeea' }}>GP <img style={{ marginTop:'-5px' }} src={Cancel} alt="" /></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="d-flex justify-content-center mt-5">
+      <button className="btn-rest ms-5 px-5 py-2">Next</button>
+      </div>
     </>
   );
 };
